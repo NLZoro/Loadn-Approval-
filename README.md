@@ -182,4 +182,4 @@ Please ensure your code is tested, documented, and follows consistent style guid
 
 ---
 
-If you like, I can generate a ready-to-paste README.md including details extracted from your repo (e.g. actual file names, scripts). Do you want me to do that?
+
