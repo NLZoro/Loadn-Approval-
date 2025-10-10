@@ -35,7 +35,7 @@ This project aims to predict loan approvals by building classification models on
 The dataset used in this repository is `loan_approval_dataset.csv`.  
 It contains historical loan applications along with their approval status.
 
-You can find it in the repository root. (Ensure data is anonymized / safe to share.)
+
 
 ---
 
