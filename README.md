@@ -186,22 +186,7 @@ Please ensure your code is tested, documented, and follows consistent style guid
 
 ---
 
-## License
 
-Specify the license under which you are distributing this project (e.g., MIT, Apache 2.0).
-If none is chosen, you may add one now (e.g. `LICENSE` file with MIT license).
-
----
-
-## Contact
-
-For any questions or suggestions, you can reach out:
-
-* **Author / Maintainer**: *Your Name*
-* **Email**: *[your.email@example.com](mailto:your.email@example.com)*
-* **GitHub**: [NLZoro](https://github.com/NLZoro)
-
----
 
 ### Acknowledgments / References
 
