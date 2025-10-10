@@ -1,6 +1,4 @@
-Here’s a sample **README.md** tailored for the **Loadn-Approval** repository. You can adapt sections (especially “Usage”, “Installation”, etc.) based on the specifics of the project.
 
-````md
 # Loadn-Approval
 
 Loan Approval Prediction Project  
