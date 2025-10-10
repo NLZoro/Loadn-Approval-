@@ -138,19 +138,7 @@ You can expand this section by specifying which models you used, libraries (e.g.
 
 ---
 
-## Evaluation Metrics
 
-Typical metrics for binary classification:
-
-* Accuracy
-* Precision
-* Recall
-* F1-Score
-* ROC-AUC
-
-Report these metrics for both training and test data. You may also include a confusion matrix.
-
----
 
 ## Project Structure
 
