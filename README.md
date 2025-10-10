@@ -6,23 +6,7 @@ A machine learning / data science project to predict whether a loan will be appr
 
 ---
 
-## Table of Contents
 
-- [About](#about)  
-- [Dataset](#dataset)  
-- [Features / Columns](#features--columns)  
-- [Getting Started](#getting-started)  
-  - [Prerequisites](#prerequisites)  
-  - [Installation](#installation)  
-- [Usage](#usage)  
-- [Modeling Approach](#modeling-approach)  
-- [Evaluation Metrics](#evaluation-metrics)  
-- [Project Structure](#project-structure)  
-- [Contributing](#contributing)  
-- [License](#license)  
-- [Contact](#contact)
-
----
 
 ## About
 
