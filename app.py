@@ -9,7 +9,7 @@ import os
 
 st.set_page_config(page_title="Loan Approval Predictor", layout="wide")
 st.title("💸 Loan Approval Prediction App")
-st.markdown("This app allows you to explore a preloaded loan dataset, visualize correlations, and train a Random Forest model to predict loan approval.")
+st.markdown("This app allows you to predict whether a loan will be approved based on applicant details.")
 
 # Define default CSV path
 csv_path = r"C:\\Users\\rakes\\Downloads\\loan Approval predi\\loan_approval_dataset.csv"
@@ -22,62 +22,45 @@ else:
     st.error(f"❌ CSV file not found at {csv_path}. Please check the path.")
     st.stop()
 
-# Data Overview
-st.subheader("📊 Data Overview")
-st.write("Shape:", df.shape)
-st.dataframe(df.head())
-
-# Cleaning
+# Data Cleaning
 df.drop_duplicates(inplace=True)
 df.dropna(inplace=True)
 
-st.write("After cleaning, shape:", df.shape)
+# Encode categorical features
+label_encoders = {}
+for col in df.select_dtypes(include='object').columns:
+    le = LabelEncoder()
+    df[col] = le.fit_transform(df[col].astype(str))
+    label_encoders[col] = le
 
-# Visualizations
-st.subheader("📈 Data Visualizations")
-numeric_df = df.select_dtypes(include=['int64', 'float64'])
+# Train Model
+X = df.drop(columns=[' loan_status'], errors='ignore')
+y = df[' loan_status'] if ' loan_status' in df.columns else None
 
-if not numeric_df.empty:
-    fig, ax = plt.subplots(figsize=(8, 5))
-    sns.heatmap(numeric_df.corr(), annot=True, cmap="coolwarm", ax=ax)
-    st.pyplot(fig)
-
-st.write("Pairplot (sampled for performance):")
-sampled_df = df.sample(min(100, len(df)))
-pair_fig = sns.pairplot(sampled_df)
-st.pyplot(pair_fig)
-
-# Model Training
-st.subheader("🤖 Model Training")
-target_col = st.selectbox("Select Target Column", options=df.columns)
-feature_cols = st.multiselect("Select Feature Columns", options=[c for c in df.columns if c != target_col])
-
-if st.button("Train Model"):
-    X = df[feature_cols]
-    y = df[target_col]
-
-    label_encoders = {}
-    for col in X.select_dtypes(include='object').columns:
-        le = LabelEncoder()
-        X[col] = le.fit_transform(X[col].astype(str))
-        label_encoders[col] = le
-
+if y is not None:
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestClassifier(random_state=42)
     model.fit(X_train, y_train)
-
     acc = model.score(X_test, y_test)
     st.success(f"✅ Model trained successfully with accuracy: {acc:.2f}")
+else:
+    st.warning("⚠️ Target column 'loan_status' not found in dataset.")
+    st.stop()
 
-    st.subheader("🧮 Make a Prediction")
-    input_data = {}
-    for col in feature_cols:
-        if X[col].dtype == 'object':
-            val = st.selectbox(f"Select {col}", df[col].unique())
-            input_data[col] = label_encoders[col].transform([val])[0]
-        else:
-            input_data[col] = st.number_input(f"Enter {col}", value=float(df[col].mean()))
+# Prediction UI
+st.subheader("🧮 Predict Loan Approval Status")
+input_data = {}
 
-    if st.button("Predict Loan Status"):
-        pred = model.predict(pd.DataFrame([input_data]))[0]
-        st.success(f"Prediction: {pred}")
+for col in X.columns:
+    if X[col].dtype == 'object':
+        val = st.selectbox(f"Select {col}", df[col].unique())
+        input_data[col] = label_encoders[col].transform([val])[0]
+    else:
+        input_data[col] = st.number_input(f"Enter {col}", value=float(df[col].mean()))
+
+if st.button("Predict Loan Status"):
+    pred = model.predict(pd.DataFrame([input_data]))[0]
+    if pred == 1:
+        st.success("🎉 Loan Approved!")
+    else:
+        st.error("❌ Loan Rejected!")
